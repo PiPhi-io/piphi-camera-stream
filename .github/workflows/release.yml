@@ -41,6 +41,9 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write
+  attestations: write
+  artifact-metadata: write
 
 concurrency:
   group: piphi-camera-stream-release-${{ github.event.repository.full_name }}
@@ -216,6 +219,7 @@ jobs:
             org.opencontainers.image.version=${{ steps.version.outputs.version }}
 
       - name: Build and push image
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -226,6 +230,15 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=min
+          provenance: mode=max
+          sbom: true
+
+      - name: Attest image provenance
+        uses: actions/attest@v4
+        with:
+          subject-name: ${{ env.RELEASE_IMAGE }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
 
       - name: Push release commit and tag
         shell: bash
