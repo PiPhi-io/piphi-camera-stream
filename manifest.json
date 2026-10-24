@@ -181,5 +181,8 @@
       "lifecycle_status": "active",
       "qualification": {"status": "unverified"}
     }
+  },
+  "onboarding": {
+    "mode": "manual"
   }
 }
