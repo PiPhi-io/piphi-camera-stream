@@ -28,7 +28,7 @@ def test_rtsp_camera_auto_installs_the_shared_webrtc_service() -> None:
             "id": "piphi.service.webrtc-sidecar",
             "kind": "platform_service",
             "version_range": ">=0.2.1,<0.3.0",
-            "recommended_version": "0.2.1",
+            "recommended_version": "0.2.2",
             "required": True,
             "shared": True,
             "auto_install": True,
@@ -40,6 +40,11 @@ def test_rtsp_camera_auto_installs_the_shared_webrtc_service() -> None:
 def test_core_allocates_the_runtime_host_port() -> None:
     manifest = _manifest()
 
+    assert manifest["runtime_contract"] == {
+        "version": 1,
+        "port_binding": "core_allocated",
+        "port_env": "PORT",
+    }
     assert manifest["runtime"]["linux"]["container"]["ports"] == [
         {"container": 8090}
     ]

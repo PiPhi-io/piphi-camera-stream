@@ -53,6 +53,6 @@ receipts in integration code; the Runtime Kit owns that protocol.
 ## Docker
 
 ```bash
-docker build -t ghcr.io/piphi-io/piphi-camera-stream:0.1.1 .
-docker run --rm -p 8090:8090 ghcr.io/piphi-io/piphi-camera-stream:0.1.1
+docker build -t ghcr.io/piphi-io/piphi-camera-stream:0.1.2 .
+docker run --rm -p 8090:8090 ghcr.io/piphi-io/piphi-camera-stream:0.1.2
 ```

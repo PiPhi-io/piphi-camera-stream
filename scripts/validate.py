@@ -36,6 +36,16 @@ if not isinstance(port, int):
 elif dockerfile and f"EXPOSE {port}" not in dockerfile:
     errors.append(f"Dockerfile must expose manifest port {port}")
 
+runtime_contract = manifest.get("runtime_contract")
+if runtime_contract != {
+    "version": 1,
+    "port_binding": "core_allocated",
+    "port_env": "PORT",
+}:
+    errors.append(
+        "runtime_contract must declare Core-managed PORT allocation when the host port is omitted"
+    )
+
 for capability_id, capability in manifest.get("capabilities", {}).items():
     if capability.get("kind") == "action" and capability_id not in COMMANDS:
         errors.append(f"action capability {capability_id} must map to a command")
