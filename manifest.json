@@ -3,7 +3,7 @@
   "manifest_version": "1.0",
   "id": "piphi-camera-stream",
   "name": "Piphi Camera Stream",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Connect an RTSP or RTSPS camera to PiPhi while keeping its source URL inside the integration and media sidecar boundary.",
   "metadata": {
     "generator": "piphi-network-create",
@@ -17,7 +17,7 @@
     "website": "https://piphi.io"
   },
   "license": "Apache-2.0",
-  "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.0",
+  "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.1",
   "platforms": [
     "linux"
   ],
@@ -25,11 +25,10 @@
     "linux": {
       "type": "container",
       "container": {
-        "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.0",
+        "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.1",
         "ports": [
           {
-            "container": 8090,
-            "host": 8090
+            "container": 8090
           }
         ],
         "environment": {
@@ -39,11 +38,22 @@
           "name": "unless-stopped",
           "maximum_retry_count": 0
         }
-      },
-      "discovery": {
-        "method": "passive"
       }
     }
+  },
+  "requires": {
+    "services": [
+      {
+        "id": "piphi.service.webrtc-sidecar",
+        "kind": "platform_service",
+        "version_range": ">=0.2.1,<0.3.0",
+        "recommended_version": "0.2.1",
+        "required": true,
+        "shared": true,
+        "auto_install": true,
+        "reason": "Provides low-latency WebRTC playback for configured RTSP cameras."
+      }
+    ]
   },
   "api": {
     "required": [
@@ -56,7 +66,6 @@
     "endpoints": {
       "health": "/health",
       "diagnostics": "/diagnostics",
-      "discover": "/discover",
       "entities": "/entities",
       "state": "/state",
       "config": "/config",
@@ -139,7 +148,7 @@
     "metadata_version": 2,
     "display_name": "RTSP Camera",
     "summary": "Connect an RTSP camera or NVR stream to PiPhi dashboards.",
-    "category": "camera",
+    "category": "security",
     "device_types": ["camera", "nvr"],
     "protocols": ["rtsp", "rtsps"],
     "regions": ["WW"],

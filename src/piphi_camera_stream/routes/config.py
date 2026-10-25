@@ -11,6 +11,7 @@ from piphi_runtime_kit_python import (
 )
 from piphi_runtime_kit_python.fastapi import sync_runtime_auth_from_fastapi_payload
 
+from ..contract import CONFIG_SCHEMA
 from ..schemas import DeviceConfig
 from ..state import (
     apply_config,
@@ -21,6 +22,11 @@ from ..state import (
 )
 
 router = APIRouter(tags=["config"])
+
+
+@router.get("/ui-config")
+async def ui_config():
+    return CONFIG_SCHEMA
 
 
 @router.post("/config")

@@ -11,11 +11,17 @@ pdm run pytest
 pdm run python scripts/validate.py
 ```
 
-The runtime listens on port `8090` by default and exposes the common PiPhi runtime route contract:
+The runtime listens on `PORT` when Core assigns one, falling back to container
+port `8090` for direct development. Camera setup is manual: Core reads
+`GET /ui-config` and asks the homeowner for the RTSP URL instead of running
+device discovery. The installer also resolves the shared WebRTC Camera Service
+declared in `manifest.json`.
+
+The runtime exposes the common PiPhi runtime route contract:
 
 - `GET /health`
 - `GET /diagnostics`
-- `POST /discover`
+- `GET /ui-config`
 - `POST /config`
 - `POST /config/sync`
 - `POST /deconfigure`
@@ -47,6 +53,6 @@ receipts in integration code; the Runtime Kit owns that protocol.
 ## Docker
 
 ```bash
-docker build -t ghcr.io/piphi-io/piphi-camera-stream:0.1.0 .
-docker run --rm -p 8090:8090 ghcr.io/piphi-io/piphi-camera-stream:0.1.0
+docker build -t ghcr.io/piphi-io/piphi-camera-stream:0.1.1 .
+docker run --rm -p 8090:8090 ghcr.io/piphi-io/piphi-camera-stream:0.1.1
 ```
