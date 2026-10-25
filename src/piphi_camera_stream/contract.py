@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 ENDPOINTS = {
-    "health": "/health", "diagnostics": "/diagnostics", "discover": "/discover",
+    "health": "/health", "diagnostics": "/diagnostics",
     "entities": "/entities", "state": "/state", "config": "/config",
     "config_sync": "/config/sync", "deconfigure": "/deconfigure",
     "ui_config": "/ui-config", "events": "/events", "command": "/command",

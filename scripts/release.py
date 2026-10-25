@@ -19,6 +19,7 @@ SEMVER_RE = re.compile(
 )
 PYPROJECT_VERSION_RE = re.compile(r'(?m)^(version\s*=\s*")([^"]+)(")$')
 PACKAGE_VERSION_RE = re.compile(r'(?m)^\s*"version"\s*:\s*"([^"]+)"')
+RUNTIME_VERSION_RE = re.compile(r'(?m)^(INTEGRATION_VERSION\s*=\s*")([^"]+)(")$')
 DEFAULT_PREID = "alpha"
 BUMP_CHOICES = (
     "major",
@@ -131,6 +132,15 @@ def render_version_file(path: Path, text: str, version: str) -> str:
         payload["version"] = version
         return json.dumps(payload, indent=2) + "\n"
     raise ValueError(f"Unsupported version file: {path.name}")
+
+
+def render_runtime_version(text: str, version: str) -> str:
+    updated, count = RUNTIME_VERSION_RE.subn(
+        rf"\g<1>{version}\g<3>", text, count=1
+    )
+    if count != 1:
+        raise ValueError("Unable to update INTEGRATION_VERSION in runtime settings")
+    return updated
 
 
 def atomic_write_text(path: Path, text: str) -> None:
@@ -267,6 +277,7 @@ def main() -> int:
     package_contract_path = resolve_path(repo_root, args.package_contract)
     pyproject_path = resolve_path(repo_root, args.pyproject)
     package_path = resolve_path(repo_root, args.package_json)
+    runtime_settings_path = repo_root / "src" / "piphi_camera_stream" / "settings.py"
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest_version = SemVer.parse(str(manifest.get("version") or "").strip())
@@ -310,6 +321,10 @@ def main() -> int:
         pending_writes[package_contract_path] = json.dumps(package_contract, indent=2) + "\n"
     for path, (text, _version) in version_files:
         pending_writes[path] = render_version_file(path, text, target_version)
+    if runtime_settings_path.exists():
+        pending_writes[runtime_settings_path] = render_runtime_version(
+            runtime_settings_path.read_text(encoding="utf-8"), target_version
+        )
     for path, text in pending_writes.items():
         atomic_write_text(path, text)
     print(target_version)

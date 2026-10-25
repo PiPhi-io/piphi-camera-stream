@@ -4,4 +4,4 @@ COPY pyproject.toml ./
 COPY src ./src
 RUN pip install --no-cache-dir .
 EXPOSE 8090
-CMD ["uvicorn", "piphi_camera_stream.main:app", "--host", "0.0.0.0", "--port", "8090"]
+CMD ["python", "-m", "piphi_camera_stream.main"]

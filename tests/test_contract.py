@@ -9,7 +9,6 @@ def test_runtime_implements_contract_routes() -> None:
     for path in [
         "/health",
         "/diagnostics",
-        "/discover",
         "/config",
         "/config/sync",
         "/deconfigure",
@@ -26,6 +25,8 @@ def test_runtime_implements_contract_routes() -> None:
         "/v1/cameras/{config_id}/source",
     ]:
         assert path in routes
+
+    assert "/discover" not in routes
 
     assert REQUIRED_ENDPOINTS == ["health", "entities", "command", "config", "ui_config"]
     assert "refresh" in COMMANDS
