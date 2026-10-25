@@ -18,4 +18,8 @@ class DeviceConfig(RuntimeConfig):
         parsed = urlsplit(source)
         if len(source) > 4096 or any(character in source for character in "\r\n\0") or parsed.scheme.lower() not in {"rtsp", "rtsps"} or not parsed.hostname:
             raise ValueError("source_url must be a valid RTSP or RTSPS camera URL")
+        if parsed.username is not None and parsed.password is None:
+            raise ValueError(
+                "source_url credentials must use username:password@camera-host"
+            )
         return SecretStr(source)

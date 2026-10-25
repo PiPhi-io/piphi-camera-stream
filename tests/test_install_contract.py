@@ -27,12 +27,12 @@ def test_rtsp_camera_auto_installs_the_shared_webrtc_service() -> None:
         {
             "id": "piphi.service.webrtc-sidecar",
             "kind": "platform_service",
-            "version_range": ">=0.2.1,<0.3.0",
-            "recommended_version": "0.2.2",
+            "version_range": ">=0.3.0,<0.4.0",
+            "recommended_version": "0.3.0",
             "required": True,
             "shared": True,
             "auto_install": True,
-            "reason": "Provides low-latency WebRTC playback for configured RTSP cameras.",
+            "reason": "Provides shared camera media sessions and low-latency WebRTC playback.",
         }
     ]
 

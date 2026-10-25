@@ -3,7 +3,7 @@
   "manifest_version": "1.0",
   "id": "piphi-camera-stream",
   "name": "Piphi Camera Stream",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Connect an RTSP or RTSPS camera to PiPhi while keeping its source URL inside the integration and media sidecar boundary.",
   "metadata": {
     "generator": "piphi-network-create",
@@ -17,7 +17,7 @@
     "website": "https://piphi.io"
   },
   "license": "Apache-2.0",
-  "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.3",
+  "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.4",
   "platforms": [
     "linux"
   ],
@@ -25,7 +25,7 @@
     "linux": {
       "type": "container",
       "container": {
-        "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.3",
+        "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.4",
         "ports": [
           {
             "container": 8090
@@ -51,12 +51,12 @@
       {
         "id": "piphi.service.webrtc-sidecar",
         "kind": "platform_service",
-        "version_range": ">=0.2.1,<0.3.0",
-        "recommended_version": "0.2.2",
+        "version_range": ">=0.3.0,<0.4.0",
+        "recommended_version": "0.3.0",
         "required": true,
         "shared": true,
         "auto_install": true,
-        "reason": "Provides low-latency WebRTC playback for configured RTSP cameras."
+        "reason": "Provides shared camera media sessions and low-latency WebRTC playback."
       }
     ]
   },

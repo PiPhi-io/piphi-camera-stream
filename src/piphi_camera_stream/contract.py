@@ -29,13 +29,25 @@ CONFIG_SCHEMA: dict[str, Any] = {
     "schema": {
         "title": "RTSP camera setup", "type": "object", "required": ["source_url"],
         "properties": {
-            "source_url": {"type": "string", "title": "RTSP camera URL", "description": "RTSP or RTSPS URL supplied by your camera or NVR.", "format": "password"},
+            "source_url": {
+                "type": "string",
+                "title": "RTSP camera URL",
+                "description": (
+                    "Full RTSP or RTSPS URL supplied by your camera or NVR. Include its "
+                    "username and password when sign-in is required. Percent-encode "
+                    "reserved characters in credentials."
+                ),
+                "writeOnly": True,
+            },
             "alias": {"type": "string", "title": "Camera name", "maxLength": 120},
             "preferred_transport": {"type": "string", "title": "RTSP transport", "enum": ["tcp", "udp", "auto"], "default": "tcp"},
         },
     },
     "uiSchema": {
-        "source_url": {"ui:widget": "password", "placeholder": "rtsp://camera.local/live"},
+        "source_url": {
+            "ui:widget": "password",
+            "placeholder": "rtsps://username:password@camera.local:322/stream0",
+        },
         "alias": {"placeholder": "Front door"},
     },
 }
