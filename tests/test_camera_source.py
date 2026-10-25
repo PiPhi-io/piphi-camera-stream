@@ -53,3 +53,20 @@ def test_camera_config_rejects_browser_urls_and_control_characters() -> None:
         DeviceConfig(id="camera", source_url="https://camera.local/image.jpg")
     with pytest.raises(ValueError, match="RTSP"):
         DeviceConfig(id="camera", source_url="rtsp://camera.local/live\nspoof")
+
+
+def test_camera_config_rejects_malformed_inline_credentials() -> None:
+    with pytest.raises(ValueError, match="username:password@"):
+        DeviceConfig(
+            id="camera",
+            source_url="rtsps://username@passwordcamera.local:322/stream0",
+        )
+
+
+def test_camera_config_accepts_inline_credentials() -> None:
+    config = DeviceConfig(
+        id="camera",
+        source_url="rtsps://username:password@camera.local:322/stream0",
+    )
+
+    assert config.source_url.get_secret_value().startswith("rtsps://username:password@")
