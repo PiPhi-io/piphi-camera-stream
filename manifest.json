@@ -3,7 +3,7 @@
   "manifest_version": "1.0",
   "id": "piphi-camera-stream",
   "name": "Piphi Camera Stream",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Connect an RTSP or RTSPS camera to PiPhi while keeping its source URL inside the integration and media sidecar boundary.",
   "metadata": {
     "generator": "piphi-network-create",
@@ -17,7 +17,7 @@
     "website": "https://piphi.io"
   },
   "license": "Apache-2.0",
-  "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.1",
+  "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.2",
   "platforms": [
     "linux"
   ],
@@ -25,7 +25,7 @@
     "linux": {
       "type": "container",
       "container": {
-        "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.1",
+        "image": "ghcr.io/piphi-io/piphi-camera-stream:0.1.2",
         "ports": [
           {
             "container": 8090
@@ -41,13 +41,18 @@
       }
     }
   },
+  "runtime_contract": {
+    "version": 1,
+    "port_binding": "core_allocated",
+    "port_env": "PORT"
+  },
   "requires": {
     "services": [
       {
         "id": "piphi.service.webrtc-sidecar",
         "kind": "platform_service",
         "version_range": ">=0.2.1,<0.3.0",
-        "recommended_version": "0.2.1",
+        "recommended_version": "0.2.2",
         "required": true,
         "shared": true,
         "auto_install": true,
@@ -132,7 +137,11 @@
         "refresh"
       ],
       "available_commands": [
-        { "id": "refresh", "label": "Refresh", "kind": "action" }
+        {
+          "id": "refresh",
+          "label": "Refresh",
+          "kind": "action"
+        }
       ],
       "dashboard": {
         "allowed_widgets": [
@@ -149,11 +158,23 @@
     "display_name": "RTSP Camera",
     "summary": "Connect an RTSP camera or NVR stream to PiPhi dashboards.",
     "category": "security",
-    "device_types": ["camera", "nvr"],
-    "protocols": ["rtsp", "rtsps"],
-    "regions": ["WW"],
-    "languages": ["en"],
-    "discovery_methods": ["manual"],
+    "device_types": [
+      "camera",
+      "nvr"
+    ],
+    "protocols": [
+      "rtsp",
+      "rtsps"
+    ],
+    "regions": [
+      "WW"
+    ],
+    "languages": [
+      "en"
+    ],
+    "discovery_methods": [
+      "manual"
+    ],
     "connectivity": "local",
     "offline_support": "partial",
     "publisher": {
@@ -177,7 +198,10 @@
       }
     ],
     "compatibility": [
-      {"brand": "Generic", "model": "RTSP or RTSPS camera/NVR stream"}
+      {
+        "brand": "Generic",
+        "model": "RTSP or RTSPS camera/NVR stream"
+      }
     ],
     "documentation_url": "https://github.com/PiPhi-io/piphi-camera-stream",
     "support_url": "https://github.com/PiPhi-io/piphi-camera-stream/issues",
@@ -188,7 +212,9 @@
       "publication_status": "draft",
       "rollout_percent": 0,
       "lifecycle_status": "active",
-      "qualification": {"status": "unverified"}
+      "qualification": {
+        "status": "unverified"
+      }
     }
   },
   "onboarding": {
